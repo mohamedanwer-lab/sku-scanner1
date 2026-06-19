@@ -93,7 +93,6 @@
   .qty-val.green { color: var(--green); }
   .qty-val.red { color: var(--red); }
   .qty-val.amber { color: var(--amber); }
-  .pass-big { font-size: 28px; font-weight: 700; color: var(--green); margin-top: 6px; text-align: center; letter-spacing: -0.5px; }
   .empty-state { text-align: center; padding: 4rem 1rem; color: var(--text-hint); grid-column: 1 / -1; }
   .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; }
   .empty-state h3 { font-size: 15px; font-weight: 500; color: var(--text-sec); margin-bottom: 6px; }
@@ -169,7 +168,7 @@
 <script>
 // ── CONFIG ────────────────────────────────────────────────────────────────────
 const SHEET_ID = '1ASWNnxtHze8xmeWd95dD3R_Otq-1S04lOHqCTuFkwis';
-const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=locations`;
+const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Cycle`;
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let allRows    = [];
@@ -342,13 +341,14 @@ function renderResults() {
     return;
   }
 
-  const sorted = [...locs.values()].sort((a,b) => a.barcode.localeCompare(b.barcode));
-  const cards = sorted.map(l => {
+  const cards = [...locs.values()].map(l => {
     const tc = l.type === 'Picking' ? 'type-Picking' : l.type === 'Backstorage' ? 'type-Backstorage' : '';
     return `<div class="loc-card">
       <div class="loc-barcode">${escHtml(l.barcode)}</div>
       <span class="loc-type-badge ${tc}">${escHtml(l.type||'Unknown')}</span>
-      <div class="pass-big">${l.pass.toLocaleString()}</div>
+      <div class="qty-row"><span class="qty-label">Pass</span><span class="qty-val green">${l.pass.toLocaleString()}</span></div>
+      <div class="qty-row"><span class="qty-label">Fail</span><span class="qty-val red">${l.fail.toLocaleString()}</span></div>
+      <div class="qty-row"><span class="qty-label">Expired</span><span class="qty-val amber">${l.exp.toLocaleString()}</span></div>
     </div>`;
   }).join('');
   setGrid(cards);
