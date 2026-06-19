@@ -7,251 +7,103 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.33.0/dist/tabler-icons.min.css" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #f5f5f3;
-    --surface: #ffffff;
-    --surface2: #f0efeb;
-    --border: rgba(0,0,0,0.12);
-    --border-hover: rgba(0,0,0,0.25);
-    --text: #1a1a18;
-    --text-sec: #6b6b67;
-    --text-hint: #9e9e9a;
-    --green: #1D9E75;
-    --green-bg: #E1F5EE;
-    --red: #D85A30;
-    --red-bg: #FAECE7;
-    --amber: #BA7517;
-    --amber-bg: #FAEEDA;
-    --blue: #185FA5;
-    --blue-bg: #E6F1FB;
-    --radius-md: 8px;
-    --radius-lg: 12px;
+    --bg: #f5f5f3; --surface: #ffffff; --surface2: #f0efeb;
+    --border: rgba(0,0,0,0.12); --border-hover: rgba(0,0,0,0.25);
+    --text: #1a1a18; --text-sec: #6b6b67; --text-hint: #9e9e9a;
+    --green: #1D9E75; --green-bg: #E1F5EE;
+    --red: #D85A30; --red-bg: #FAECE7;
+    --amber: #BA7517; --amber-bg: #FAEEDA;
+    --blue: #185FA5; --blue-bg: #E6F1FB;
+    --radius-md: 8px; --radius-lg: 12px;
     --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1c1c1a;
-      --surface: #242422;
-      --surface2: #2e2e2b;
-      --border: rgba(255,255,255,0.1);
-      --border-hover: rgba(255,255,255,0.22);
-      --text: #f0f0ec;
-      --text-sec: #a0a09a;
-      --text-hint: #6a6a66;
-      --green: #5DCAA5;
-      --green-bg: #085041;
-      --red: #F0997B;
-      --red-bg: #4A1B0C;
-      --amber: #EF9F27;
-      --amber-bg: #412402;
-      --blue: #85B7EB;
-      --blue-bg: #042C53;
+      --bg: #1c1c1a; --surface: #242422; --surface2: #2e2e2b;
+      --border: rgba(255,255,255,0.1); --border-hover: rgba(255,255,255,0.22);
+      --text: #f0f0ec; --text-sec: #a0a09a; --text-hint: #6a6a66;
+      --green: #5DCAA5; --green-bg: #085041;
+      --red: #F0997B; --red-bg: #4A1B0C;
+      --amber: #EF9F27; --amber-bg: #412402;
+      --blue: #85B7EB; --blue-bg: #042C53;
       --shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
   }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    font-size: 15px;
-    line-height: 1.5;
-    min-height: 100vh;
-  }
-
-  header {
-    background: var(--surface);
-    border-bottom: 0.5px solid var(--border);
-    padding: 0 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.5; min-height: 100vh; }
+  header { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 50; }
   .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
   .logo i { font-size: 20px; color: var(--green); }
   .logo span { color: var(--text-sec); font-weight: 400; font-size: 13px; }
-  .header-right { font-size: 12px; color: var(--text-hint); }
-
+  .sync-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; font-size: 12px; font-weight: 500; border: 0.5px solid var(--border); border-radius: var(--radius-md); background: var(--surface); color: var(--text-sec); cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .sync-btn:hover { background: var(--surface2); color: var(--text); border-color: var(--border-hover); }
+  .sync-btn.loading { opacity: 0.6; pointer-events: none; }
+  .sync-btn i { font-size: 15px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinning { animation: spin 0.8s linear infinite; display: inline-block; }
   main { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
-
-  .search-section {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.25rem;
-    margin-bottom: 1.25rem;
-    box-shadow: var(--shadow);
-  }
-  .search-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-  .search-wrap { flex: 1; min-width: 200px; position: relative; }
-  .search-wrap input {
-    width: 100%;
-    padding: 10px 14px 10px 42px;
-    font-size: 14px;
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-md);
-    background: var(--surface2);
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.15s;
-    font-family: inherit;
-  }
-  [dir="rtl"] .search-wrap input { padding: 10px 42px 10px 14px; }
+  .search-section { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: var(--shadow); }
+  .search-wrap { position: relative; }
+  .search-wrap input { width: 100%; padding: 11px 14px 11px 44px; font-size: 14px; border: 0.5px solid var(--border); border-radius: var(--radius-md); background: var(--surface2); color: var(--text); outline: none; transition: border-color 0.15s; font-family: inherit; }
+  [dir="rtl"] .search-wrap input { padding: 11px 44px 11px 14px; }
   .search-wrap input:focus { border-color: var(--green); background: var(--surface); }
-  .search-icon {
-    position: absolute;
-    left: 13px; top: 50%; transform: translateY(-50%);
-    color: var(--text-hint); font-size: 18px; pointer-events: none;
-  }
+  .search-wrap input:disabled { opacity: 0.5; cursor: not-allowed; }
+  .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--text-hint); font-size: 19px; pointer-events: none; }
   [dir="rtl"] .search-icon { left: auto; right: 13px; }
-  .clear-btn {
-    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-    background: none; border: none; cursor: pointer; color: var(--text-hint);
-    font-size: 15px; padding: 4px; display: none; line-height: 1;
-  }
+  .clear-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-hint); font-size: 15px; padding: 4px; display: none; line-height: 1; }
   [dir="rtl"] .clear-btn { right: auto; left: 10px; }
-
-  .suggestions {
-    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
-    background: var(--surface); border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg); z-index: 200;
-    max-height: 280px; overflow-y: auto; display: none;
-    box-shadow: var(--shadow);
-  }
-  .suggestion-item {
-    padding: 10px 14px; cursor: pointer; border-bottom: 0.5px solid var(--border);
-    display: flex; flex-direction: column; gap: 2px;
-    transition: background 0.1s;
-  }
+  .suggestions { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); z-index: 200; max-height: 280px; overflow-y: auto; display: none; box-shadow: var(--shadow); }
+  .suggestion-item { padding: 10px 14px; cursor: pointer; border-bottom: 0.5px solid var(--border); display: flex; flex-direction: column; gap: 2px; transition: background 0.1s; }
   .suggestion-item:last-child { border-bottom: none; }
   .suggestion-item:hover { background: var(--surface2); }
   .sugg-sku { font-weight: 600; font-size: 13px; font-family: monospace; color: var(--text); }
   .sugg-name { font-size: 12px; color: var(--text-sec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-  .upload-btn {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 10px 16px; font-size: 13px; font-weight: 500;
-    border: 0.5px solid var(--border); border-radius: var(--radius-md);
-    background: var(--surface); color: var(--text); cursor: pointer;
-    white-space: nowrap; transition: background 0.15s, border-color 0.15s;
-    font-family: inherit;
-  }
-  .upload-btn:hover { background: var(--surface2); border-color: var(--border-hover); }
-  .upload-btn i { font-size: 17px; }
-  #file-input { display: none; }
-
-  .status-bar {
-    margin-top: 10px; font-size: 12px; color: var(--text-sec); min-height: 18px;
-    display: flex; align-items: center; gap: 6px;
-  }
+  .status-bar { margin-top: 10px; font-size: 12px; color: var(--text-sec); min-height: 18px; display: flex; align-items: center; gap: 6px; }
   .status-bar.success { color: var(--green); }
   .status-bar.error { color: var(--red); }
-  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-
-  .summary-cards {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 10px; margin-bottom: 1.25rem;
-  }
-  .metric-card {
-    background: var(--surface); border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg); padding: 14px 16px;
-  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+  .metric-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; }
   .metric-label { font-size: 11px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
   .metric-value { font-size: 26px; font-weight: 600; }
   .metric-value.green { color: var(--green); }
   .metric-value.red { color: var(--red); }
   .metric-value.amber { color: var(--amber); }
   .metric-value.neutral { color: var(--text); }
-
-  .sku-info-bar {
-    background: var(--surface); border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg); padding: 14px 16px;
-    margin-bottom: 1rem; display: none;
-  }
+  .sku-info-bar { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; margin-bottom: 1rem; display: none; }
   .sku-info-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
   .sku-name { font-size: 15px; font-weight: 600; color: var(--text); }
-  .sku-code-badge {
-    font-size: 11px; font-family: monospace;
-    background: var(--surface2); border: 0.5px solid var(--border);
-    border-radius: var(--radius-md); padding: 3px 10px; color: var(--text-sec);
-    white-space: nowrap;
-  }
+  .sku-code-badge { font-size: 11px; font-family: monospace; background: var(--surface2); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 3px 10px; color: var(--text-sec); white-space: nowrap; }
   .sku-seller { font-size: 12px; color: var(--text-sec); }
-
-  .filter-bar {
-    display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap;
-  }
+  .filter-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
   .filter-label { font-size: 12px; color: var(--text-sec); }
-  .filter-pill {
-    font-size: 12px; padding: 5px 14px;
-    border: 0.5px solid var(--border); border-radius: 99px;
-    cursor: pointer; background: var(--surface); color: var(--text-sec);
-    transition: all 0.12s; font-family: inherit;
-  }
+  .filter-pill { font-size: 12px; padding: 5px 14px; border: 0.5px solid var(--border); border-radius: 99px; cursor: pointer; background: var(--surface); color: var(--text-sec); transition: all 0.12s; font-family: inherit; }
   .filter-pill:hover { border-color: var(--border-hover); color: var(--text); }
   .filter-pill.active { background: var(--green); border-color: var(--green); color: #fff; }
-  .filter-pill.active-blue { background: var(--blue); border-color: var(--blue); color: #fff; }
-
-  .locations-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
-  }
-  .loc-card {
-    background: var(--surface); border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg); padding: 14px;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
+  .locations-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .loc-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 14px; transition: border-color 0.15s, box-shadow 0.15s; }
   .loc-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow); }
-  .loc-barcode {
-    font-size: 13px; font-weight: 600; font-family: monospace;
-    color: var(--text); margin-bottom: 6px;
-    word-break: break-all;
-  }
-  .loc-type-badge {
-    display: inline-block; font-size: 10px; font-weight: 600;
-    padding: 2px 9px; border-radius: 99px; margin-bottom: 10px;
-    letter-spacing: 0.03em;
-  }
+  .loc-barcode { font-size: 13px; font-weight: 600; font-family: monospace; color: var(--text); margin-bottom: 6px; word-break: break-all; }
+  .loc-type-badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 99px; margin-bottom: 10px; letter-spacing: 0.03em; }
   .type-Picking { background: var(--green-bg); color: var(--green); }
   .type-Backstorage { background: var(--blue-bg); color: var(--blue); }
-  .qty-row {
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 13px; padding: 4px 0;
-    border-top: 0.5px solid var(--border);
-  }
+  .qty-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 4px 0; border-top: 0.5px solid var(--border); }
   .qty-label { color: var(--text-sec); }
   .qty-val { font-weight: 600; }
   .qty-val.green { color: var(--green); }
   .qty-val.red { color: var(--red); }
   .qty-val.amber { color: var(--amber); }
-
-  .empty-state {
-    text-align: center; padding: 4rem 1rem; color: var(--text-hint);
-    grid-column: 1 / -1;
-  }
+  .empty-state { text-align: center; padding: 4rem 1rem; color: var(--text-hint); grid-column: 1 / -1; }
   .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; }
   .empty-state h3 { font-size: 15px; font-weight: 500; color: var(--text-sec); margin-bottom: 6px; }
   .empty-state p { font-size: 13px; }
-
-  #results-section { min-height: 200px; }
-
+  .last-sync { font-size: 11px; color: var(--text-hint); margin-top: 6px; }
   @media (max-width: 600px) {
     header { padding: 0 1rem; }
     main { padding: 1rem 0.75rem 4rem; }
-    .search-row { flex-direction: column; align-items: stretch; }
-    .upload-btn { justify-content: center; }
     .locations-grid { grid-template-columns: 1fr 1fr; }
   }
-  @media (max-width: 380px) {
-    .locations-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 380px) { .locations-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -260,56 +112,33 @@
   <div class="logo">
     <i class="ti ti-scan"></i>
     SKU Location Scanner
-    <span>| Warehouse Inventory</span>
+    <span>| Live من Google Sheets</span>
   </div>
-  <div class="header-right" id="header-info">—</div>
+  <button class="sync-btn" id="sync-btn" onclick="loadFromSheets()">
+    <i class="ti ti-refresh" id="sync-icon"></i>
+    تحديث
+  </button>
 </header>
 
 <main>
-
-  <!-- Search Section -->
   <div class="search-section">
-    <div class="search-row">
-      <div class="search-wrap">
-        <i class="ti ti-barcode search-icon" aria-hidden="true"></i>
-        <input type="text" id="sku-input" placeholder="اكتب أو امسح Seller SKU Code…" autocomplete="off" disabled />
-        <button class="clear-btn" id="clear-btn" title="مسح" aria-label="مسح البحث">
-          <i class="ti ti-x"></i>
-        </button>
-        <div class="suggestions" id="suggestions" role="listbox"></div>
-      </div>
-      <label class="upload-btn" for="file-input">
-        <i class="ti ti-upload"></i>
-        رفع CSV
-      </label>
-      <input type="file" id="file-input" accept=".csv,.tsv,.txt" />
+    <div class="search-wrap">
+      <i class="ti ti-barcode search-icon"></i>
+      <input type="text" id="sku-input" placeholder="اكتب أو امسح Seller SKU Code…" autocomplete="off" disabled />
+      <button class="clear-btn" id="clear-btn"><i class="ti ti-x"></i></button>
+      <div class="suggestions" id="suggestions"></div>
     </div>
-    <div class="status-bar" id="status-bar">
-      <span>ارفع ملف الـ Location Inventory CSV للبدء</span>
-    </div>
+    <div class="status-bar" id="status-bar"><span>جاري تحميل البيانات من Google Sheets…</span></div>
+    <div class="last-sync" id="last-sync"></div>
   </div>
 
-  <!-- Summary Cards -->
   <div class="summary-cards" id="summary-cards" style="display:none">
-    <div class="metric-card">
-      <div class="metric-label">لوكيشنات</div>
-      <div class="metric-value neutral" id="m-locs">0</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Pass</div>
-      <div class="metric-value green" id="m-pass">0</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Fail</div>
-      <div class="metric-value red" id="m-fail">0</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Expired</div>
-      <div class="metric-value amber" id="m-exp">0</div>
-    </div>
+    <div class="metric-card"><div class="metric-label">لوكيشنات</div><div class="metric-value neutral" id="m-locs">0</div></div>
+    <div class="metric-card"><div class="metric-label">Pass</div><div class="metric-value green" id="m-pass">0</div></div>
+    <div class="metric-card"><div class="metric-label">Fail</div><div class="metric-value red" id="m-fail">0</div></div>
+    <div class="metric-card"><div class="metric-label">Expired</div><div class="metric-value amber" id="m-exp">0</div></div>
   </div>
 
-  <!-- SKU Info -->
   <div class="sku-info-bar" id="sku-info-bar">
     <div class="sku-info-top">
       <span class="sku-name" id="sku-name-display">—</span>
@@ -318,7 +147,6 @@
     <div class="sku-seller" id="sku-seller-display"></div>
   </div>
 
-  <!-- Filter Bar -->
   <div class="filter-bar" id="filter-bar" style="display:none">
     <span class="filter-label">نوع اللوكيشن:</span>
     <button class="filter-pill active" data-type="All">الكل</button>
@@ -326,259 +154,253 @@
     <button class="filter-pill" data-type="Backstorage">Backstorage</button>
   </div>
 
-  <!-- Results -->
   <div id="results-section">
     <div class="locations-grid">
       <div class="empty-state">
-        <i class="ti ti-file-upload"></i>
-        <h3>ابدأ برفع ملف الـ CSV</h3>
-        <p>ثم ابحث بـ Seller SKU Code وهيظهر لك كل لوكيشن فيه المنتج</p>
+        <i class="ti ti-cloud-download"></i>
+        <h3>جاري تحميل البيانات…</h3>
+        <p>بيجيب البيانات من Google Sheets</p>
       </div>
     </div>
   </div>
-
 </main>
 
 <script>
-(function () {
-  let allRows = [];
-  let currentSKU = null;
-  let activeType = 'All';
-  let suggTimer = null;
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+const SHEET_ID = '1ASWNnxtHze8xmeWd95dD3R_Otq-1S04lOHqCTuFkwis';
+const RANGE    = 'B:U';
+const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&range=${RANGE}`;
 
-  const fileInput   = document.getElementById('file-input');
-  const skuInput    = document.getElementById('sku-input');
-  const clearBtn    = document.getElementById('clear-btn');
-  const statusBar   = document.getElementById('status-bar');
-  const suggestBox  = document.getElementById('suggestions');
-  const summaryCards = document.getElementById('summary-cards');
-  const skuInfoBar  = document.getElementById('sku-info-bar');
-  const filterBar   = document.getElementById('filter-bar');
-  const resultsSection = document.getElementById('results-section');
-  const headerInfo  = document.getElementById('header-info');
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let allRows    = [];
+let currentSKU = null;
+let activeType = 'All';
+let suggTimer  = null;
 
-  // ── Encoding ──────────────────────────────────────────────────────────────
-  function decodeBuf(buf) {
-    const b = new Uint8Array(buf);
-    if (b[0] === 0xFF && b[1] === 0xFE) return new TextDecoder('utf-16le').decode(buf);
-    if (b[0] === 0xFE && b[1] === 0xFF) return new TextDecoder('utf-16be').decode(buf);
-    try { return new TextDecoder('utf-8').decode(buf); } catch(e) {}
-    return new TextDecoder('windows-1252').decode(buf);
-  }
+// ── ELEMENTS ──────────────────────────────────────────────────────────────────
+const skuInput     = document.getElementById('sku-input');
+const clearBtn     = document.getElementById('clear-btn');
+const statusBar    = document.getElementById('status-bar');
+const suggestBox   = document.getElementById('suggestions');
+const summaryCards = document.getElementById('summary-cards');
+const skuInfoBar   = document.getElementById('sku-info-bar');
+const filterBar    = document.getElementById('filter-bar');
+const resultsSection = document.getElementById('results-section');
+const syncBtn      = document.getElementById('sync-btn');
+const syncIcon     = document.getElementById('sync-icon');
+const lastSync     = document.getElementById('last-sync');
 
-  // ── CSV Parse ─────────────────────────────────────────────────────────────
-  function parseCSV(text) {
-    const sep = (text.match(/\t/g) || []).length > (text.match(/,/g) || []).length ? '\t' : ',';
-    const lines = text.replace(/\r/g, '').split('\n').filter(l => l.trim());
-    if (lines.length < 2) return [];
-    const headers = lines[0].split(sep).map(h => h.trim().replace(/^"|"$/g, ''));
-    const rows = [];
-    for (let i = 1; i < lines.length; i++) {
-      const cols = lines[i].split(sep).map(c => c.trim().replace(/^"|"$/g, ''));
-      if (cols.length < 4) continue;
-      const obj = {};
-      headers.forEach((h, idx) => { obj[h] = cols[idx] !== undefined ? cols[idx] : ''; });
-      rows.push(obj);
+// ── LOAD FROM SHEETS ──────────────────────────────────────────────────────────
+async function loadFromSheets() {
+  setStatus('جاري التحديث من Google Sheets…', '');
+  syncBtn.classList.add('loading');
+  syncIcon.classList.add('spinning');
+  skuInput.disabled = true;
+
+  try {
+    const res  = await fetch(CSV_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+
+    if (!rows.length || !rows[0].hasOwnProperty('SELLER SKU CODE')) {
+      throw new Error('تأكد إن الشيت Public وفيه عمود SELLER SKU CODE');
     }
-    return rows;
-  }
 
-  // ── Status ────────────────────────────────────────────────────────────────
-  function setStatus(msg, type) {
-    statusBar.className = 'status-bar' + (type ? ' ' + type : '');
-    statusBar.innerHTML = type
-      ? `<span class="status-dot"></span><span>${msg}</span>`
-      : `<span>${msg}</span>`;
-  }
-
-  // ── File Upload ───────────────────────────────────────────────────────────
-  fileInput.addEventListener('change', function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    setStatus('جاري قراءة الملف…');
-    const reader = new FileReader();
-    reader.onload = function (ev) {
-      const text = decodeBuf(ev.target.result);
-      const rows = parseCSV(text);
-      if (!rows.length) {
-        setStatus('مش قادر أقرأ الملف — تأكد إنه CSV صحيح.', 'error');
-        return;
-      }
-      if (!rows[0].hasOwnProperty('SELLER SKU CODE')) {
-        setStatus('ملقتش عمود SELLER SKU CODE في الملف.', 'error');
-        return;
-      }
-      allRows = rows;
-      const uniq = new Set(rows.map(r => r['SELLER SKU CODE'])).size;
-      setStatus(`✓ تم تحميل ${rows.length.toLocaleString()} صف — ${uniq.toLocaleString()} SKU مختلف`, 'success');
-      headerInfo.textContent = `${uniq.toLocaleString()} SKU | ${rows.length.toLocaleString()} صف`;
-      skuInput.disabled = false;
-      skuInput.focus();
-      clearResults();
-    };
-    reader.readAsArrayBuffer(file);
-    fileInput.value = '';
-  });
-
-  // ── Search Input ──────────────────────────────────────────────────────────
-  skuInput.addEventListener('input', function () {
-    const q = this.value.trim();
-    clearBtn.style.display = q ? 'block' : 'none';
-    if (!q || !allRows.length) { suggestBox.style.display = 'none'; return; }
-    clearTimeout(suggTimer);
-    suggTimer = setTimeout(() => showSuggestions(q), 150);
-  });
-
-  skuInput.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { suggestBox.style.display = 'none'; runSearch(this.value.trim()); }
-    if (e.key === 'Escape') suggestBox.style.display = 'none';
-  });
-
-  clearBtn.addEventListener('click', function () {
-    skuInput.value = '';
-    clearBtn.style.display = 'none';
-    suggestBox.style.display = 'none';
-    clearResults();
-    skuInput.focus();
-  });
-
-  document.addEventListener('click', function (e) {
-    if (!e.target.closest('.search-wrap')) suggestBox.style.display = 'none';
-  });
-
-  // ── Suggestions ───────────────────────────────────────────────────────────
-  function showSuggestions(q) {
-    const ql = q.toLowerCase();
-    const seen = new Set();
-    const matches = [];
-    for (const row of allRows) {
-      const sku = (row['SELLER SKU CODE'] || '').trim();
-      if (!sku || seen.has(sku)) continue;
-      if (sku.toLowerCase().includes(ql)) {
-        seen.add(sku);
-        matches.push({ sku, name: row['SKU NAME'] || '' });
-        if (matches.length >= 10) break;
-      }
+    allRows = rows;
+    const uniq = new Set(rows.map(r => r['SELLER SKU CODE'])).size;
+    setStatus(`✓ ${rows.length.toLocaleString()} صف | ${uniq.toLocaleString()} SKU`, 'success');
+    lastSync.textContent = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-EG');
+    skuInput.disabled = false;
+    if (!currentSKU) {
+      setGrid(`<div class="empty-state"><i class="ti ti-search"></i><h3>ابحث بـ SKU Code</h3><p>اكتب الكود أو امسحه بالباركود سكانر</p></div>`);
+    } else {
+      renderResults();
     }
-    if (!matches.length) { suggestBox.style.display = 'none'; return; }
-    suggestBox.innerHTML = matches.map(m =>
-      `<div class="suggestion-item" role="option" data-sku="${escHtml(m.sku)}">
-         <span class="sugg-sku">${escHtml(m.sku)}</span>
-         <span class="sugg-name">${escHtml(m.name)}</span>
-       </div>`
-    ).join('');
-    suggestBox.style.display = 'block';
-    suggestBox.querySelectorAll('.suggestion-item').forEach(el => {
-      el.addEventListener('mousedown', function (e) {
-        e.preventDefault();
-        const sku = this.dataset.sku;
-        skuInput.value = sku;
-        clearBtn.style.display = 'block';
-        suggestBox.style.display = 'none';
-        runSearch(sku);
-      });
+  } catch (err) {
+    setStatus('خطأ: ' + err.message, 'error');
+    setGrid(`<div class="empty-state"><i class="ti ti-wifi-off"></i><h3>مش قادر يجيب البيانات</h3><p>${escHtml(err.message)}</p></div>`);
+  } finally {
+    syncBtn.classList.remove('loading');
+    syncIcon.classList.remove('spinning');
+  }
+}
+
+// ── CSV PARSE ─────────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const sep   = (text.match(/\t/g)||[]).length > (text.match(/,/g)||[]).length ? '\t' : ',';
+  const lines = text.replace(/\r/g,'').split('\n').filter(l => l.trim());
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(sep).map(h => h.trim().replace(/^"|"$/g,''));
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(sep).map(c => c.trim().replace(/^"|"$/g,''));
+    if (cols.length < 4) continue;
+    const obj = {};
+    headers.forEach((h,idx) => { obj[h] = cols[idx] !== undefined ? cols[idx] : ''; });
+    rows.push(obj);
+  }
+  return rows;
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+skuInput.addEventListener('input', function() {
+  const q = this.value.trim();
+  clearBtn.style.display = q ? 'block' : 'none';
+  if (!q || !allRows.length) { suggestBox.style.display = 'none'; return; }
+  clearTimeout(suggTimer);
+  suggTimer = setTimeout(() => showSuggestions(q), 150);
+});
+
+skuInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { suggestBox.style.display = 'none'; runSearch(this.value.trim()); }
+  if (e.key === 'Escape') suggestBox.style.display = 'none';
+});
+
+clearBtn.addEventListener('click', function() {
+  skuInput.value = '';
+  clearBtn.style.display = 'none';
+  suggestBox.style.display = 'none';
+  clearResults();
+  skuInput.focus();
+});
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.search-wrap')) suggestBox.style.display = 'none';
+});
+
+function showSuggestions(q) {
+  const ql = q.toLowerCase();
+  const seen = new Set();
+  const matches = [];
+  for (const row of allRows) {
+    const sku = (row['SELLER SKU CODE'] || '').trim();
+    if (!sku || seen.has(sku)) continue;
+    if (sku.toLowerCase().includes(ql)) {
+      seen.add(sku);
+      matches.push({ sku, name: row['SKU NAME'] || '' });
+      if (matches.length >= 10) break;
+    }
+  }
+  if (!matches.length) { suggestBox.style.display = 'none'; return; }
+  suggestBox.innerHTML = matches.map(m =>
+    `<div class="suggestion-item" data-sku="${escHtml(m.sku)}">
+       <span class="sugg-sku">${escHtml(m.sku)}</span>
+       <span class="sugg-name">${escHtml(m.name)}</span>
+     </div>`
+  ).join('');
+  suggestBox.style.display = 'block';
+  suggestBox.querySelectorAll('.suggestion-item').forEach(el => {
+    el.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      skuInput.value = this.dataset.sku;
+      clearBtn.style.display = 'block';
+      suggestBox.style.display = 'none';
+      runSearch(this.dataset.sku);
     });
-  }
+  });
+}
 
-  // ── Search ────────────────────────────────────────────────────────────────
-  function runSearch(sku) {
-    if (!sku || !allRows.length) return;
-    currentSKU = sku;
-    activeType = 'All';
-    document.querySelectorAll('.filter-pill').forEach(p => {
-      p.className = 'filter-pill' + (p.dataset.type === 'All' ? ' active' : '');
-    });
-    renderResults();
-  }
+function runSearch(sku) {
+  if (!sku || !allRows.length) return;
+  currentSKU = sku;
+  activeType = 'All';
+  document.querySelectorAll('.filter-pill').forEach(p => {
+    p.className = 'filter-pill' + (p.dataset.type === 'All' ? ' active' : '');
+  });
+  renderResults();
+}
 
-  // ── Render ────────────────────────────────────────────────────────────────
-  function renderResults() {
-    const matched = allRows.filter(r => (r['SELLER SKU CODE'] || '').trim() === currentSKU);
-    if (!matched.length) {
-      hideMetaUI();
-      setGrid(`<div class="empty-state"><i class="ti ti-mood-sad"></i><h3>مش لاقي SKU ده</h3><p>"${escHtml(currentSKU)}" مش موجود في الملف</p></div>`);
-      return;
-    }
-    const filtered = activeType === 'All' ? matched : matched.filter(r => (r['LOCATION TYPE'] || '') === activeType);
-    const totalPass = sum(filtered, 'LOCATION PASS QUANTITY');
-    const totalFail = sum(filtered, 'LOCATION FAIL QUANTITY');
-    const totalExp  = sum(filtered, 'LOCATION EXPIRED QUANTITY');
-    const locs = buildLocs(filtered);
-
-    document.getElementById('sku-name-display').textContent = matched[0]['SKU NAME'] || '—';
-    document.getElementById('sku-code-display').textContent = currentSKU;
-    document.getElementById('sku-seller-display').textContent = 'Seller: ' + (matched[0]['SELLER NAME'] || '—');
-    skuInfoBar.style.display = 'block';
-
-    document.getElementById('m-locs').textContent = locs.size;
-    document.getElementById('m-pass').textContent = totalPass.toLocaleString();
-    document.getElementById('m-fail').textContent = totalFail.toLocaleString();
-    document.getElementById('m-exp').textContent = totalExp.toLocaleString();
-    summaryCards.style.display = 'grid';
-    filterBar.style.display = 'flex';
-
-    if (!locs.size) {
-      setGrid(`<div class="empty-state"><i class="ti ti-inbox"></i><h3>مفيش لوكيشنات بالفلتر ده</h3><p>جرب "الكل" أو نوع تاني</p></div>`);
-      return;
-    }
-
-    const cards = [...locs.values()].map(l => {
-      const typeClass = l.type === 'Picking' ? 'type-Picking' : l.type === 'Backstorage' ? 'type-Backstorage' : '';
-      return `<div class="loc-card">
-        <div class="loc-barcode">${escHtml(l.barcode)}</div>
-        <span class="loc-type-badge ${typeClass}">${escHtml(l.type || 'Unknown')}</span>
-        <div class="qty-row"><span class="qty-label">Pass</span><span class="qty-val green">${l.pass.toLocaleString()}</span></div>
-        <div class="qty-row"><span class="qty-label">Fail</span><span class="qty-val red">${l.fail.toLocaleString()}</span></div>
-        <div class="qty-row"><span class="qty-label">Expired</span><span class="qty-val amber">${l.exp.toLocaleString()}</span></div>
-      </div>`;
-    }).join('');
-    setGrid(cards);
-  }
-
-  // ── Helpers ───────────────────────────────────────────────────────────────
-  function clearResults() {
-    currentSKU = null;
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderResults() {
+  const matched  = allRows.filter(r => (r['SELLER SKU CODE']||'').trim() === currentSKU);
+  if (!matched.length) {
     hideMetaUI();
-    setGrid(`<div class="empty-state"><i class="ti ti-search"></i><h3>ابحث بـ SKU Code</h3><p>اكتب الكود أو امسحه بالباركود سكانر</p></div>`);
+    setGrid(`<div class="empty-state"><i class="ti ti-mood-sad"></i><h3>مش لاقي SKU ده</h3><p>"${escHtml(currentSKU)}" مش موجود في البيانات</p></div>`);
+    return;
   }
-  function hideMetaUI() {
-    summaryCards.style.display = 'none';
-    skuInfoBar.style.display = 'none';
-    filterBar.style.display = 'none';
-  }
-  function setGrid(html) {
-    resultsSection.innerHTML = `<div class="locations-grid">${html}</div>`;
-  }
-  function sum(rows, col) {
-    return rows.reduce((s, r) => s + (parseInt(r[col]) || 0), 0);
-  }
-  function buildLocs(rows) {
-    const map = new Map();
-    for (const r of rows) {
-      const key = (r['LOCATION BARCODE'] || '').trim();
-      if (!key) continue;
-      if (!map.has(key)) map.set(key, { barcode: key, type: r['LOCATION TYPE'] || '', pass: 0, fail: 0, exp: 0 });
-      const l = map.get(key);
-      l.pass += parseInt(r['LOCATION PASS QUANTITY']) || 0;
-      l.fail += parseInt(r['LOCATION FAIL QUANTITY']) || 0;
-      l.exp  += parseInt(r['LOCATION EXPIRED QUANTITY']) || 0;
-    }
-    return map;
-  }
-  function escHtml(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const filtered = activeType === 'All' ? matched : matched.filter(r => (r['LOCATION TYPE']||'') === activeType);
+  const totalPass = sum(filtered,'LOCATION PASS QUANTITY');
+  const totalFail = sum(filtered,'LOCATION FAIL QUANTITY');
+  const totalExp  = sum(filtered,'LOCATION EXPIRED QUANTITY');
+  const locs = buildLocs(filtered);
+
+  document.getElementById('sku-name-display').textContent  = matched[0]['SKU NAME'] || '—';
+  document.getElementById('sku-code-display').textContent  = currentSKU;
+  document.getElementById('sku-seller-display').textContent = 'Seller: ' + (matched[0]['SELLER NAME'] || '—');
+  skuInfoBar.style.display = 'block';
+
+  document.getElementById('m-locs').textContent = locs.size;
+  document.getElementById('m-pass').textContent = totalPass.toLocaleString();
+  document.getElementById('m-fail').textContent = totalFail.toLocaleString();
+  document.getElementById('m-exp').textContent  = totalExp.toLocaleString();
+  summaryCards.style.display = 'grid';
+  filterBar.style.display = 'flex';
+
+  if (!locs.size) {
+    setGrid(`<div class="empty-state"><i class="ti ti-inbox"></i><h3>مفيش لوكيشنات بالفلتر ده</h3><p>جرب "الكل"</p></div>`);
+    return;
   }
 
-  // ── Filter Buttons ────────────────────────────────────────────────────────
-  document.querySelectorAll('.filter-pill').forEach(btn => {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll('.filter-pill').forEach(p => p.className = 'filter-pill');
-      this.classList.add('active');
-      activeType = this.dataset.type;
-      if (currentSKU) renderResults();
-    });
+  const cards = [...locs.values()].map(l => {
+    const tc = l.type === 'Picking' ? 'type-Picking' : l.type === 'Backstorage' ? 'type-Backstorage' : '';
+    return `<div class="loc-card">
+      <div class="loc-barcode">${escHtml(l.barcode)}</div>
+      <span class="loc-type-badge ${tc}">${escHtml(l.type||'Unknown')}</span>
+      <div class="qty-row"><span class="qty-label">Pass</span><span class="qty-val green">${l.pass.toLocaleString()}</span></div>
+      <div class="qty-row"><span class="qty-label">Fail</span><span class="qty-val red">${l.fail.toLocaleString()}</span></div>
+      <div class="qty-row"><span class="qty-label">Expired</span><span class="qty-val amber">${l.exp.toLocaleString()}</span></div>
+    </div>`;
+  }).join('');
+  setGrid(cards);
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function clearResults() {
+  currentSKU = null; hideMetaUI();
+  setGrid(`<div class="empty-state"><i class="ti ti-search"></i><h3>ابحث بـ SKU Code</h3><p>اكتب الكود أو امسحه بالباركود سكانر</p></div>`);
+}
+function hideMetaUI() {
+  summaryCards.style.display = 'none';
+  skuInfoBar.style.display = 'none';
+  filterBar.style.display = 'none';
+}
+function setGrid(html) { resultsSection.innerHTML = `<div class="locations-grid">${html}</div>`; }
+function setStatus(msg, type) {
+  statusBar.className = 'status-bar' + (type ? ' '+type : '');
+  statusBar.innerHTML = type
+    ? `<span class="status-dot"></span><span>${msg}</span>`
+    : `<span>${msg}</span>`;
+}
+function sum(rows, col) { return rows.reduce((s,r) => s+(parseInt(r[col])||0), 0); }
+function buildLocs(rows) {
+  const map = new Map();
+  for (const r of rows) {
+    const key = (r['LOCATION BARCODE']||'').trim();
+    if (!key) continue;
+    if (!map.has(key)) map.set(key, {barcode:key, type:r['LOCATION TYPE']||'', pass:0, fail:0, exp:0});
+    const l = map.get(key);
+    l.pass += parseInt(r['LOCATION PASS QUANTITY'])||0;
+    l.fail += parseInt(r['LOCATION FAIL QUANTITY'])||0;
+    l.exp  += parseInt(r['LOCATION EXPIRED QUANTITY'])||0;
+  }
+  return map;
+}
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.querySelectorAll('.filter-pill').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-pill').forEach(p => p.className='filter-pill');
+    this.classList.add('active');
+    activeType = this.dataset.type;
+    if (currentSKU) renderResults();
   });
-})();
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadFromSheets();
 </script>
 </body>
 </html>
